@@ -83,6 +83,19 @@
             </div>
 
             <div class="form-group">
+                <label for="inventory">Inventory</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="inventory" id="inventory">
+                    <label class="custom-file-label" for="inventory">Choose file</label>
+                </div>
+                @error('inventory')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+
+            <div class="form-group">
                 <label for="status">Status</label>
                 <select name="status" class="form-control @error('status') is-invalid @enderror" id="status">
                     <option value="1" {{ old('status', $product->status) === 1 ? 'selected' : ''}}>Active</option>

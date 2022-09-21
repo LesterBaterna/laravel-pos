@@ -60,6 +60,7 @@ class ProductController extends Controller
             'barcode' => $request->barcode,
             'price' => $request->price,
             'quantity' => $request->quantity,
+            'inventory' => $request->inventory,
             'status' => $request->status
         ]);
 
@@ -105,6 +106,7 @@ class ProductController extends Controller
         $product->barcode = $request->barcode;
         $product->price = $request->price;
         $product->quantity = $request->quantity;
+        $product->inventory = $request->inventory;
         $product->status = $request->status;
 
         if ($request->hasFile('image')) {
@@ -116,6 +118,17 @@ class ProductController extends Controller
             $image_path = $request->file('image')->store('products', 'public');
             // Save to Database
             $product->image = $image_path;
+        }
+
+        if ($request->hasFile('inventory')) {
+            // Delete old file
+            if ($product->inventory) {
+                Storage::delete($product->inventory);
+            }
+            // Store image
+            $inventory_path = $request->file('inventory')->store('products', 'public');
+            // Save to Database
+            $product->inventory = $inventory_path;
         }
 
         if (!$product->save()) {
